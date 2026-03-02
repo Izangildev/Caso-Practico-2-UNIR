@@ -1,7 +1,7 @@
 variable "location" {
   description = "Region de azure donde se crearan los recursos"
   type = string
-  default = "westeurope"
+  default = "norwayeast"
 }
 
 variable "resource_group_name" {
@@ -14,6 +14,6 @@ variable "tags" {
     description = "Tags comunes que se aplican a todos los recursos"
     type = map(string)
     default = {
-      "enviroment" = "casopractico2"
+      "environment" = "casopractico2"
     }
 }
