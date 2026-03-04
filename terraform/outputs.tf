@@ -1,11 +1,11 @@
 output "resource_group_name" {
   description = "Nombre del RG"
-  value = var.resource_group_name
+  value       = var.resource_group_name
 }
 
 output "location" {
   description = "Region de azure usada"
-  value = var.location
+  value       = var.location
 }
 
 output "vm_public_ip" {
@@ -17,4 +17,16 @@ output "ssh_private_key_pem" {
   description = "Private SSH key to access the VM (PEM)."
   value       = tls_private_key.ssh_key.private_key_pem
   sensitive   = true
+}
+
+output "acr_login_server" {
+  value = azurerm_container_registry.acr.login_server
+}
+
+output "acr_admin_username" {
+  value = azurerm_container_registry.acr.admin_username
+}
+
+output "aks_name" {
+  value = azurerm_kubernetes_cluster.aks.name
 }

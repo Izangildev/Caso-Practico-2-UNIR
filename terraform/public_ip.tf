@@ -1,8 +1,8 @@
 resource "azurerm_public_ip" "pip" {
-  name = "pip-cp2"
-  location = var.location
+  name                = "pip-cp2"
+  location            = var.location
   resource_group_name = var.resource_group_name
-  allocation_method = "Static"
-  sku = "Standard"
-  tags = var.tags
+  allocation_method   = "Static"
+  sku                 = "Standard"
+  tags                = var.tags
 }
