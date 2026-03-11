@@ -1,7 +1,6 @@
 acr_name: "acrcp2izan12345"
 acr_login_server: "acrcp2izan12345.azurecr.io"
 acr_username: "acrcp2izan12345"
-acr_password: "2SOIMFJLxbaZetyyq0N3mAL8p8iUQcH23XxnSt4LBr6IzAUe2J23JQQJ99CCAChHRaEEqg7NAAACAZCRpHWG"
 
 images:
   # Imagen para la VM (web)
@@ -9,7 +8,19 @@ images:
     dest_repo: "web/nginx"
     dest_tag: "casopractico2"
 
-  # Imagen para AKS (distinta) - ejemplo (luego la afinamos a la app final)
+  # Imagen para AKS 
   - src: "docker.io/library/redis:7-alpine"
     dest_repo: "k8s/redis"
     dest_tag: "casopractico2"
+  
+  - src: "docker.io/jsosa15/azure-vote-front:v1"
+    dest_repo: "k8s/azure-vote-front"
+    dest_tag: "casopractico2"
+
+vm_container_name: "webserver"
+vm_image: "acrcp2izan12345.azurecr.io/web/nginx:casopractico2"
+vm_host_port: "80"
+vm_container_port: "80"
+vm_web_root: "/opt/web"
+vm_nginx_conf_dir: "/opt/nginx"
+vm_basic_auth_user: "izan"

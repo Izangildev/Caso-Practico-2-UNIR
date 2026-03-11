@@ -1,0 +1,73 @@
+- name: Update apt cache
+  become: true
+  ansible.builtin.apt:
+    update_cache: true
+
+- name: Install required packages
+  become: true
+  ansible.builtin.apt:
+    name:
+      - podman
+      - apache2-utils
+    state: present
+
+- name: Create web content directory
+  become: true
+  ansible.builtin.file:
+    path: "{{ vm_web_root }}"
+    state: directory
+    mode: "0755"
+
+- name: Create nginx config directory
+  become: true
+  ansible.builtin.file:
+    path: "{{ vm_nginx_conf_dir }}"
+    state: directory
+    mode: "0755"
+
+- name: Copy custom index.html
+  become: true
+  ansible.builtin.copy:
+    src: index.html
+    dest: "{{ vm_web_root }}/index.html"
+    mode: "0644"
+
+- name: Copy nginx.conf with basic auth
+  become: true
+  ansible.builtin.copy:
+    src: nginx.conf
+    dest: "{{ vm_nginx_conf_dir }}/nginx.conf"
+    mode: "0644"
+
+- name: Create htpasswd file
+  become: true
+  ansible.builtin.command:
+    cmd: htpasswd -bc {{ vm_nginx_conf_dir }}/.htpasswd {{ vm_basic_auth_user }} {{ vm_basic_auth_password }}
+  changed_when: true
+
+- name: Login to ACR from VM with Podman
+  become: true
+  containers.podman.podman_login:
+    registry: "{{ acr_login_server }}"
+    username: "{{ acr_username }}"
+    password: "{{ acr_password }}"
+
+- name: Pull web image from ACR
+  become: true
+  containers.podman.podman_image:
+    name: "{{ vm_image }}"
+    pull: true
+
+- name: Run web container with Podman
+  become: true
+  containers.podman.podman_container:
+    name: "{{ vm_container_name }}"
+    image: "{{ vm_image }}"
+    state: started
+    recreate: true
+    ports:
+      - "{{ vm_host_port }}:{{ vm_container_port }}"
+    volumes:
+      - "{{ vm_web_root }}/index.html:/usr/share/nginx/html/index.html:Z"
+      - "{{ vm_nginx_conf_dir }}/nginx.conf:/etc/nginx/nginx.conf:Z"
+      - "{{ vm_nginx_conf_dir }}/.htpasswd:/etc/nginx/.htpasswd:Z"

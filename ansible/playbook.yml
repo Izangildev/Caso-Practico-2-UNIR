@@ -3,3 +3,9 @@
   gather_facts: false
   roles:
     - acr
+
+- name: Configurar VM y desplegar web con Podman
+  hosts: vm
+  gather_facts: false
+  roles:
+    - vm
