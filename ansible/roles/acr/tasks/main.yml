@@ -1,0 +1,25 @@
+- name: Login to ACR with Podman
+  containers.podman.podman_login:
+    registry: "{{ acr_login_server }}"
+    username: "{{ acr_username }}"
+    password: "{{ acr_password }}"
+
+- name: Pull source images from DockerHub
+  containers.podman.podman_image:
+    name: "{{ item.src }}"
+    pull: true
+  loop: "{{ images }}"
+
+- name: Tag images for ACR
+  containers.podman.podman_tag:
+    image: "{{ item.src }}"
+    target_names:
+      - "{{ acr_login_server }}/{{ item.dest_repo }}:{{ item.dest_tag }}"
+  loop: "{{ images }}"
+
+# Opción 1: push con módulo (si tu colección lo soporta)
+- name: Push images to ACR
+  containers.podman.podman_image:
+    name: "{{ acr_login_server }}/{{ item.dest_repo }}:{{ item.dest_tag }}"
+    push: true
+  loop: "{{ images }}"

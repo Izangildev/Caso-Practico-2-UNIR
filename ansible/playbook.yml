@@ -1,0 +1,5 @@
+- name: Repoblar ACR con imagenes
+  hosts: localhost
+  gather_facts: false
+  roles:
+    - acr

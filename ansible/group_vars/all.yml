@@ -1,0 +1,15 @@
+acr_name: "acrcp2izan12345"
+acr_login_server: "acrcp2izan12345.azurecr.io"
+acr_username: "acrcp2izan12345"
+acr_password: "2SOIMFJLxbaZetyyq0N3mAL8p8iUQcH23XxnSt4LBr6IzAUe2J23JQQJ99CCAChHRaEEqg7NAAACAZCRpHWG"
+
+images:
+  # Imagen para la VM (web)
+  - src: "docker.io/library/nginx:latest"
+    dest_repo: "web/nginx"
+    dest_tag: "casopractico2"
+
+  # Imagen para AKS (distinta) - ejemplo (luego la afinamos a la app final)
+  - src: "docker.io/library/redis:7-alpine"
+    dest_repo: "k8s/redis"
+    dest_tag: "casopractico2"
