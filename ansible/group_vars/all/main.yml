@@ -24,3 +24,8 @@ vm_container_port: "80"
 vm_web_root: "/opt/web"
 vm_nginx_conf_dir: "/opt/nginx"
 vm_basic_auth_user: "izan"
+
+aks_namespace: "cp2"
+aks_acr_secret_name: "acr-secret"
+aks_front_image: "acrcp2izan12345.azurecr.io/k8s/azure-vote-front:casopractico2"
+aks_backend_image: "acrcp2izan12345.azurecr.io/k8s/redis:casopractico2"

@@ -1,0 +1,38 @@
+- name: Create namespace
+  kubernetes.core.k8s:
+    state: present
+    definition:
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: "{{ aks_namespace }}"
+
+- name: Create ACR image pull secret
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('template', 'acr-secret.yml.j2') }}"
+
+- name: Create backend PVC
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('template', 'backend-pvc.yml.j2') }}"
+
+- name: Create backend deployment
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('template', 'backend-deployment.yml.j2') }}"
+
+- name: Create backend service
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('template', 'backend-service.yml.j2') }}"
+
+- name: Create frontend deployment
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('template', 'frontend-deployment.yml.j2') }}"
+
+- name: Create frontend service
+  kubernetes.core.k8s:
+    state: present
+    definition: "{{ lookup('template', 'frontend-service.yml.j2') }}"

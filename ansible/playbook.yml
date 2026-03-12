@@ -9,3 +9,9 @@
   gather_facts: false
   roles:
     - vm
+
+- name: Desplegar aplicacion en AKS
+  hosts: localhost
+  gather_facts: false
+  roles:
+    - aks
